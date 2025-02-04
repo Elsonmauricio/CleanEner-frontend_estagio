@@ -1,0 +1,104 @@
+/* Geral */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center; /* Centraliza o texto */
+}
+.dashboard-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-title {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+details {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+details[open] {
+  background: #d4d4d3; /* Verde suave */
+}
+
+summary {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  padding: 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+summary:hover {
+  color: #68ce0f; /* Verde escuro */
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-nav li {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .dashboard-content {
+    padding: 15px;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .dashboard-nav {
+    flex-direction: column; /* Empilha os itens do menu */
+    gap: 5px;
+  }
+
+  .dashboard-nav li {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .section h2 {
+    font-size: 1.3rem;
+  }
+
+  .progress-bar {
+    height: 20px;
+  }
+
+  .progress-summary p {
+    font-size: 0.9rem;
+  }
+}

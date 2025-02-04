@@ -1,0 +1,155 @@
+/* Navbar principal */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.logo {
+  height: 50px;
+  border-radius: 8px;
+}
+
+/* Barra de navegação em telas grandes */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-link {
+  color: var(--color-white);
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* Botões na parte inferior em telas grandes */
+.nav-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Barra de navegação para telas grandes */
+@media (min-width: 769px) {
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-orange); /* Cor da barra */
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100% - 2%);
+    z-index: 1000;
+    flex-wrap: wrap;
+  }
+
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  .nav-link {
+    color: var(--color-white);
+    text-decoration: none;
+    font-size: 16.5px;
+  }
+
+  .navbar-logo {
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 2px solid var(--color-white);
+  }
+
+  .logo {
+    height: 50px;
+    margin: 0;
+    border-radius: 10px;
+  }
+
+  .nav-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Barra lateral para telas pequenas */
+@media (max-width: 768px) {
+
+  .navbar-logo {
+    cursor: pointer;
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Logo fixo no topo */
+  .navbar-logo {
+    position: fixed;
+    top: 0;
+    left: 10px;
+    height: 60px; /* Altura do logo */
+    width: 60px; /* Largura total */
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    z-index: 1000;
+  }
+
+  /* Barra lateral */
+  .navbar-container {
+    display: none; /* Inicialmente escondida */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%; /* Ocupa toda a altura  */
+    width: 70px; /* Largura da barra lateral */
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--color-orange); /* Cor de fundo */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    transition: transform 0.8s ease;
+  }
+
+  .navbar-container.show {
+    display: flex; /* Exibe quando ativada */
+  }
+
+  /* Links centralizados na barra lateral */
+  .nav-links {
+    text-align: center;
+    margin-top: 60px;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Botões no final da barra lateral */
+  .nav-actions {
+    margin-bottom: 10px;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}

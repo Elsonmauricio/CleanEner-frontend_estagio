@@ -1,0 +1,63 @@
+/* Wrapper geral da seção */
+.section-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  margin: 40px 0;
+  overflow: hidden; /* Limita elementos ao contêiner */
+  z-index: 0;
+}
+
+/* Título */
+.section-title {
+  font-size: clamp(20px, 5vw, 27px);
+  text-align: center;
+  position: relative;
+  z-index: 2; /* Fica acima da onda */
+  color: var(--color-black);
+  margin-bottom: 20px;
+}
+
+/* Configuração da onda */
+/* .wavy-line {
+  --s: 90px; /* Tamanho da onda (comprimento) 
+  --b: 35px; /* Espessura da linha 
+  --m: 0.5; /* Curvatura da onda [0 a 2] 
+
+  background: var(--color-orange); /* Cor da onda 
+  --R: calc(var(--s) * sqrt(var(--m) * var(--m) + 1) + var(--b) / 2);
+  height: calc(2 * var(--R)); /* Altura do contêiner com base no raio da onda 
+  width: 100%; /* Preenche toda a largura 
+  top: 35%;
+  mask: 
+    radial-gradient(var(--R) at left 50% bottom calc(-1 * var(--m) * var(--s)), #0000 calc(99% - var(--b)), #000 calc(101% - var(--b)) 99%, #0000 101%)
+    calc(50% - 2 * var(--s)) calc(50% - var(--s) / 2 - var(--b) / 2) / calc(4 * var(--s)) calc(var(--s) + var(--b)) repeat-x,
+    radial-gradient(var(--R) at left 50% top calc(-1 * var(--m) * var(--s)), #0000 calc(99% - var(--b)), #000 calc(101% - var(--b)) 99%, #0000 101%)
+    50% calc(50% + var(--s) / 2 + var(--b) / 2) / calc(4 * var(--s)) calc(var(--s) + var(--b)) repeat-x;
+  -webkit-mask: 
+    radial-gradient(var(--R) at left 50% bottom calc(-1 * var(--m) * var(--s)), #0000 calc(99% - var(--b)), #000 calc(101% - var(--b)) 99%, #0000 101%)
+    calc(50% - 2 * var(--s)) calc(50% - var(--s) / 2 - var(--b) / 2) / calc(4 * var(--s)) calc(var(--s) + var(--b)) repeat-x,
+    radial-gradient(var(--R) at left 50% top calc(-1 * var(--m) * var(--s)), #0000 calc(99% - var(--b)), #000 calc(101% - var(--b)) 99%, #0000 101%)
+    50% calc(50% + var(--s) / 2 + var(--b) / 2) / calc(4 * var(--s)) calc(var(--s) + var(--b)) repeat-x;
+
+  background-size: cover;
+  z-index: -1;
+  position: absolute;
+} */
+
+/* Caixa de conteúdo */
+.section-box {
+  background-color: var(--color-white); /* Fundo branco */
+  box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  border-radius: 12px; /* Bordas arredondadas */
+  padding: 20px;    
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-black); /* Texto preto */
+  margin: 20px auto;
+  max-width: clamp(300px, 50%, 400px);
+  z-index: 10; /* Fica acima da onda */
+}

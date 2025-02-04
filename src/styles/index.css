@@ -1,0 +1,18 @@
+:root {
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-orange: #e67e22;
+    --color-lighter-orange:#e08637;
+    --darker-orange: #894000;
+  }
+
+  @import './navbar.css';
+  @import './HeroSection.css';
+  @import './WhoSection.css';
+  
+  
+body{
+    margin: 0;
+    background-color: var(--color-white);
+    /* background-color: #3b3b3c; */
+} 

@@ -1,0 +1,136 @@
+/* Estilo para o container da seção */
+.why-section {
+  text-align: center;
+  padding: 40px 0;
+  position: relative;
+  margin-top: -50px;
+  margin-bottom: 60px;
+}
+  
+  /* Título da seção */
+  .section-title {
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: bold;
+    color: var(--color-black);
+    margin-bottom: 20px;
+  }
+
+  .section-description {
+    font-size: 15px;
+    color: var(--color-black);
+    margin-top: 0px;
+    max-width: 80%; /* Ajuste conforme necessário */
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }  
+  
+  /* Container flex para os ícones */
+  .icons-grid {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens se movam para a próxima linha */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    gap: 40px; /* Distância entre os itens */
+    margin: 0 20%; /* Margem laterais */
+    padding: 20px 0;
+  }
+  
+  /* Para dispositivos móveis, ajuste o número de colunas */
+  @media (max-width: 768px) {
+    .icons-grid {
+      margin: 0 20px; /* Menor margem nas telas menores */
+    }
+  }
+  
+  /* Estilo para o ícone */
+  .icon-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    transition: margin 0.3s ease;
+  }
+  
+ /* Quando a caixa for aberta, empurra os ícones */
+.icon-container.open {
+  margin-bottom: 95px; /* Espaço extra quando a caixa está aberta */
+}
+
+/* Quando a primeira caixa for aberta, empurra menos */
+.icon-container.first-open.open {
+  margin-bottom: 75px; /* Espaço extra para a primeira caixa */
+}
+  
+  /* O círculo com a cor */
+  .icon {
+    background-color: var(--color-orange);
+    border-radius: 50%; /* Faz o círculo */
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Espaçamento dentro do círculo */
+    transition: transform 0.3s ease; /* Adiciona transição suave */
+  }
+  
+  .icon:hover {
+    transform: scale(1.1); /* Aumenta o ícone ao passar o mouse */
+  }
+  
+  /* A imagem do ícone */
+  .icon img {
+    max-width: 80%;
+    max-height: 80%;
+  }
+  
+  /* Caixa de conteúdo que aparece ao clicar no ícone */
+  .content-box {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) scale(0); /* Começa invisível e pequena */
+    background-color: var(--color-white);
+    color: var(--color-black);
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 180px;
+    border-radius: 8px;
+    margin-top: 10px;
+    z-index: 1;
+    opacity: 0;
+    animation: expandBox 0.3s ease forwards;
+  }
+  
+  /* Animação de expansão (abre a caixa) */
+  @keyframes expandBox {
+    0% {
+      transform: translateX(-50%) scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Animação de contração (fecha a caixa) */
+  @keyframes collapseBox {
+    0% {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-50%) scale(0);
+      opacity: 0;
+    }
+  }
+  
+  /* Quando a caixa for fechada, aplica a animação de contração */
+  .icon-container .closing .content-box {
+    animation: collapseBox 0.3s ease forwards;
+  }
+  

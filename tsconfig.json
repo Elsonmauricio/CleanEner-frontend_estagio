@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",                     // Compilar para ES5 para garantir compatibilidade com navegadores mais antigos
+    "lib": ["dom", "dom.iterable", "esnext"], // Bibliotecas padrão que o TypeScript usará
+    "allowJs": true,
+    "skipLibCheck": true,                 // Ignorar verificações de tipo nas bibliotecas
+    "strict": true,                       // Ativar verificações de tipo estritas
+    "forceConsistentCasingInFileNames": true, // Impede problemas com o nome de arquivos e pastas
+    "noEmit": true,
+    "esModuleInterop": true,              // Permite importações de módulos do CommonJS com sintaxe ESModules
+    "module": "esnext",                   // Módulo de saída (ESM)
+    "moduleResolution": "node",           // Resolução de módulos de forma semelhante ao Node.js
+    "resolveJsonModule": true,            // Permite importar arquivos JSON como módulos
+    "isolatedModules": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src/**/*"                            // Incluir todos os arquivos dentro da pasta src
+  ],
+  "exclude": [
+    "node_modules",                       // Excluir node_modules
+    "build",                              // Excluir build ou dist (se houver)
+    "public"                              // Excluir arquivos públicos
+  ]
+}
