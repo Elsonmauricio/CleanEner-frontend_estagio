@@ -76,7 +76,7 @@ const Profile: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put<UserResponse>(
-        'http://localhost:5000/api/auth/update-profile',
+        'https://cleanenerbackend-lw75tclsk-jeanpierrepros-projects.vercel.app/api/auth/update-profile',
         {
           name: formData.name,
           email: formData.email,
@@ -112,7 +112,7 @@ const Profile: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        'http://localhost:5000/api/auth/update-password',
+        'h',
         {
           currentPassword: formData.currentPassword,
           newPassword: formData.newPassword

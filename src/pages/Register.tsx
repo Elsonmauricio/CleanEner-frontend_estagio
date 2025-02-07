@@ -19,7 +19,7 @@ const Register = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/api/register', formData);
+            const response = await axios.post('https://cleanenerbackend-lw75tclsk-jeanpierrepros-projects.vercel.app/api/register', formData);
 
             console.log('Usuário registrado com sucesso!', response.data);
         } catch (error) {

@@ -27,7 +27,7 @@ function Verify() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/verify', { 
+      const response = await axios.post('https://cleanenerbackend-1tcxq3gvt-jeanpierrepros-projects.vercel.app/api/auth/verify', { 
         email, 
         confirmationCode: code  // Certifique-se de enviar o código correto
       });
