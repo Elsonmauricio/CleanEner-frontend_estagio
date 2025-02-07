@@ -16,7 +16,7 @@ const Login: React.FC = () => {
 
         try {
             // Logando os dados antes de enviar a requisição
-            const response = await axios.post('https://cleanenerbackend-1tcxq3gvt-jeanpierrepros-projects.vercel.app/api/auth/login', { 
+            const response = await axios.post('https://cleanenerbackend-lw75tclsk-jeanpierrepros-projects.vercel.app/api/auth/login', { 
                 email,
                 password
             });

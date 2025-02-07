@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://cleanenerbackend-1tcxq3gvt-jeanpierrepros-projects.vercel.app/api",
+  baseURL: "https://cleanenerbackend-lw75tclsk-jeanpierrepros-projects.vercel.app/api",
 });
 
 api.interceptors.request.use((config) => {
