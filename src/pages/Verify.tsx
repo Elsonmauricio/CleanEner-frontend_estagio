@@ -14,7 +14,6 @@ interface LocationState {
   email: string;
 }
 
-
 function Verify() {
   const [code, setCode] = useState<string>('');  // Tipando o estado `code` como string
   const [loading, setLoading] = useState<boolean>(false);  // Tipando o estado `loading` como boolean
@@ -28,13 +27,13 @@ function Verify() {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/auth/verify', { 
+      const response = await axios.post('https://cleanenerbackend-lw75tclsk-jeanpierrepros-projects.vercel.app/api/auth/verify', { 
         email, 
-        code 
+        confirmationCode: code  // Certifique-se de enviar o código correto
       });
       navigate('/login');
-    } catch (error: any) {  // Tipando o erro com `any`, pois o tipo pode variar dependendo do erro
-      alert(error.response?.data?.msg || 'Erro ao verificar código');
+    } catch (error: any) {
+        alert(error.response?.data?.message || 'Erro ao verificar código');  // Use .message para garantir que a resposta de erro seja tratada corretamente
     }
     setLoading(false);
   };

@@ -1,123 +1,78 @@
-import React, { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Paper, TextField, Button, Typography, Alert, CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
 import axios from 'axios';
-import '../styles/Login.css';
-
-// Tipagem para o erro de login
-type ErrorResponse = {
-  msg?: string;
-};
-
-interface User {
-  id: string; // Example property
-  name: string; // Example property
-  email: string; // Example property
-  // Add other properties as needed
-}
-
-interface LoginResponse {
-  token: string;
-  user: User; // Assuming User is already defined in your code
-}
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
-  const navigate = useNavigate();
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false); // Para mostrar um carregamento enquanto tenta logar
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    
-    console.log('Tentando login com:', { email, password });
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        setLoading(true);
+        setError(null); // Limpa qualquer erro anterior
 
-    try {
-      const response = await axios.post<LoginResponse>('http://localhost:5000/api/auth/login', {
-        email,
-        password
-      });
+        console.log('Tentando login com:', { email, password });
 
-      console.log('Resposta do servidor:', response.data);
+        try {
+            // Logando os dados antes de enviar a requisição
+            const response = await axios.post('https://cleanenerbackend-lw75tclsk-jeanpierrepros-projects.vercel.app/api/auth/login', { 
+                email,
+                password
+            });
 
-      if (response.data.token) {
-        // Salvar token
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        
-        // Redirecionar para home em vez de dashboard
-        navigate('/');
-      }
-    } catch (err: any) {
-      const errorResponse: ErrorResponse = err.response?.data;
-      console.error('Erro no login:', errorResponse.msg || err.message);
-      setError(errorResponse.msg || 'Erro ao fazer login. Tente novamente.');
-    } finally {
-      setLoading(false);
-    }
-  };
+            console.log('Login bem-sucedido:', response.data);
+            // Aqui você pode redirecionar o usuário ou armazenar o token
+            // Exemplo de redirecionamento:
+            // window.location.href = '/dashboard'; // Redireciona para a página do dashboard após login bem-sucedido
 
-  return (
-    <Container 
-    maxWidth="sm" 
-    sx={{ 
-      mt: 8, 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '100vh' 
-    }}
-    >
-      <Paper sx={{ p: 4, mt: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Login
-        </Typography>
-        
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+        } catch (error: any) {
+            // Captura o erro e loga informações detalhadas
+            if (error.response) {
+                // Captura a resposta do erro e mostra no estado
+                console.error('Erro recebido do servidor:', error.response.data);
+                setError(error.response.data.message || 'Erro desconhecido');
+            } else {
+                setError('Erro de comunicação com o servidor.');
+            }
 
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-            margin="normal"
-            required
-            disabled={loading}
-          />
-          
-          <TextField
-            fullWidth
-            label="Senha"
-            type="password"
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-            margin="normal"
-            required
-            disabled={loading}
-          />
-          
-          <Button 
-            fullWidth 
-            variant="contained" 
-            type="submit"
-            sx={{ mt: 2 }}
-            disabled={loading}
-          >
-            {loading ? <CircularProgress size={24} /> : 'Entrar'}
-          </Button>
-        </form>
-      </Paper>
-    </Container>
-  );
-}
+            // Logando o erro completo
+            console.error('Erro no login:', error.response?.data || error);
+        } finally {
+            setLoading(false); // Finaliza o estado de carregamento
+        }
+    };
+
+    return (
+        <div>
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit" disabled={loading}>Login</button>
+            </form>
+            {loading && <p>Carregando...</p>} {/* Exibe uma mensagem de carregamento */}
+            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Exibe o erro, caso tenha */}
+        </div>
+    );
+};
 
 export default Login;
