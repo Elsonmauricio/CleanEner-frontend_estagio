@@ -23,7 +23,6 @@ const Dashboard: React.FC = () => {
       <h1 className="dashboard-title">Painel de Controle</h1>
 
       <section className="dashboard-section">
-
         <details>
           <summary>📁 Documentos Carregados</summary>
           <FileManager /> {/* Sistema de upload e visualização de arquivos */}
