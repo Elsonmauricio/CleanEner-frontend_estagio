@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bolt, BarChart, PiggyBank } from "lucide-react"; // Ícones para melhor visualização
 import "./UserSummary.css";
 
@@ -7,12 +7,31 @@ interface UserData {
   averageConsumption: number;
   savings: number;
 }
+interface ConsumptionData { // Added ConsumptionData interface
+  value: number; // Define the structure of ConsumptionData
+}
 
 const UserSummary: React.FC = () => {
-  const userData: UserData = {
-    totalConsumption: 450, // kWh
-    averageConsumption: 90, // kWh/mês
-    savings: 50, // EUR/mês
+  const [userData, setUserData] = useState<UserData>({ totalConsumption: 0, averageConsumption: 0, savings: 0 });
+
+  useEffect(() => {
+    const handlePdfData = (event: CustomEvent<{ consumptionData: ConsumptionData[] }>) => {
+      const totalConsumption = event.detail.consumptionData.reduce((sum, data) => sum + data.value, 0);
+      const averageConsumption = totalConsumption / event.detail.consumptionData.length;
+      const savings = calculateSavings(totalConsumption);
+
+      setUserData({ totalConsumption, averageConsumption, savings });
+    };
+
+    window.addEventListener('pdfDataExtracted', handlePdfData as EventListener);
+
+    return () => {
+      window.removeEventListener('pdfDataExtracted', handlePdfData as EventListener);
+    };
+  }, []);
+
+  const calculateSavings = (totalConsumption: number) => {
+    return (totalConsumption * 0.1); // Exemplo de lógica de economia
   };
 
   return (

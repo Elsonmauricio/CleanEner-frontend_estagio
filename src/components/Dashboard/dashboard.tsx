@@ -5,9 +5,6 @@ import UserSummary from "./UserSummary";
 import ProgressTracker from "./ProgressTracker";
 import FeedbackSystem from "./feedbackSystem"; // Use the correct casing
 import FileManager from "./FileManager";
-import SavingsCalculator from "./savingsCalculator"; // Use the correct casingimport FeedbackSystem from "./FeedbackSystem"; // Corrigindo capitalização
-import RecommendationUpdater from "./recommendationsUpdater"; // Corrigindo capitalização
-import RecommendationPrioritization from "./recommendationPrioritization"; // Corrigindo capitalização
 import "./Dashboard.css";
 
 // Interface para os dados de energia
@@ -26,14 +23,15 @@ const Dashboard: React.FC = () => {
       <h1 className="dashboard-title">Painel de Controle</h1>
 
       <section className="dashboard-section">
-        <details>
-          <summary>📊 Resumo de Dados</summary>
-          <UserSummary />
-        </details>
 
         <details>
           <summary>📁 Documentos Carregados</summary>
           <FileManager /> {/* Sistema de upload e visualização de arquivos */}
+        </details>
+
+        <details>
+          <summary>📊 Resumo de Dados</summary>
+          <UserSummary />
         </details>
 
         <details>
@@ -47,8 +45,8 @@ const Dashboard: React.FC = () => {
         </details>
 
         <details>
-          <summary>🧮 Calculadora de Poupanças</summary>
-          <SavingsCalculator consumption={userEnergyData.monthlyConsumption} />
+          <summary>📍 Acompanhamento de Progresso</summary>
+          <ProgressTracker />
         </details>
 
         <details>
@@ -56,15 +54,6 @@ const Dashboard: React.FC = () => {
           <FeedbackSystem />
         </details>
 
-        <details>
-          <summary>🚀 Priorização de Recomendações</summary>
-          <RecommendationPrioritization />
-        </details>
-
-        <details>
-          <summary>📍 Acompanhamento de Progresso</summary>
-          <ProgressTracker />
-        </details>
       </section>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,18 +14,38 @@ import {
 } from "chart.js";
 import "./EnergyChart.css";
 
-
 // Registrar os componentes necessários para o gráfico
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
 
+interface ConsumptionData {
+  month: string;
+  consumption: number;
+}
+
 const EnergyChart: React.FC = () => {
-  // Definição dos dados do gráfico
+  const [chartData, setChartData] = useState<ConsumptionData[]>([]);
+
+  useEffect(() => {
+    const handlePdfData = (event: CustomEvent<{ consumptionData: ConsumptionData[] }>) => {
+      if (event.detail?.consumptionData) {
+        setChartData(event.detail.consumptionData);
+      }
+    };
+
+    window.addEventListener("pdfDataExtracted", handlePdfData as EventListener);
+
+    return () => {
+      window.removeEventListener("pdfDataExtracted", handlePdfData as EventListener);
+    };
+  }, []);
+
+  // Dados do gráfico baseados no estado atualizado
   const data: ChartData<"line"> = {
-    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio"],
+    labels: chartData.map((item) => item.month),
     datasets: [
       {
         label: "Consumo de Energia (kWh)",
-        data: [120, 150, 130, 110, 140],
+        data: chartData.map((item) => item.consumption),
         borderColor: "#4CAF50", // Verde vibrante
         backgroundColor: "rgba(76, 175, 80, 0.2)",
         pointBackgroundColor: "#FF9800", // Laranja para os pontos
@@ -45,7 +65,7 @@ const EnergyChart: React.FC = () => {
       legend: {
         position: "top",
         labels: {
-          color: "#333", // Cor do texto da legenda
+          color: "#333",
           font: {
             size: 14,
             weight: "bold",
@@ -70,21 +90,21 @@ const EnergyChart: React.FC = () => {
     scales: {
       x: {
         ticks: {
-          color: "#444", // Cor dos textos do eixo X
+          color: "#444",
           font: { size: 12 },
         },
         grid: {
-          display: false, // Oculta as linhas da grade no eixo X
+          display: false,
         },
       },
       y: {
         ticks: {
-          color: "#444", // Cor dos textos do eixo Y
+          color: "#444",
           font: { size: 12 },
-          callback: (value) => `${value} kWh`, // Adiciona unidade de medida
+          callback: (value) => `${value} kWh`,
         },
         grid: {
-          color: "rgba(0, 0, 0, 0.1)", // Linhas suaves no eixo Y
+          color: "rgba(0, 0, 0, 0.1)",
         },
       },
     },
@@ -94,7 +114,11 @@ const EnergyChart: React.FC = () => {
     <div className="chart-container">
       <h2 className="chart-title">Consumo de Energia</h2>
       <div className="chart-wrapper">
-        <Line data={data} options={options} />
+        {chartData.length > 0 ? (
+          <Line data={data} options={options} />
+        ) : (
+          <p className="no-data">Nenhum dado disponível. Faça o upload de um PDF para visualizar o gráfico.</p>
+        )}
       </div>
     </div>
   );
