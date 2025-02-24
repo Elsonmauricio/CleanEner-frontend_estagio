@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -18,13 +18,14 @@ import "./ProgressTracker.css";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ProgressTracker: React.FC = () => {
-  const [progressData, setProgressData] = useState<number[]>([]);
+  const [consumptionData, setConsumptionData] = useState<number[]>([]);
+  const [reductionGoal, setReductionGoal] = useState<number>(90);
+  const [totalReduction, setTotalReduction] = useState<number>(0);
 
   useEffect(() => {
-    const handlePdfData = (event: CustomEvent<{ consumptionData: { value: number }[] }>) => {
-      // Extrair os valores de consumo mensal
-      const consumptionValues = event.detail.consumptionData.map(data => data.value);
-      setProgressData(consumptionValues);
+    const handlePdfData = (event: CustomEvent<{ consumptionData: number[]; recommendations: number }>) => {
+      setConsumptionData(event.detail.consumptionData);
+      setTotalReduction(event.detail.recommendations);
     };
 
     window.addEventListener("pdfDataExtracted", handlePdfData as EventListener);
@@ -34,13 +35,12 @@ const ProgressTracker: React.FC = () => {
     };
   }, []);
 
-  // Tipagem dos dados do gráfico
-  const progressChartData: ChartData<"line"> = {
-    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"], // Ajuste conforme a quantidade de dados
+  const progressData: ChartData<"line"> = {
+    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"],
     datasets: [
       {
         label: "Consumo Mensal (kWh)",
-        data: progressData.length > 0 ? progressData : [150, 140, 130, 120, 110, 100], // Dados extraídos ou valores padrão
+        data: consumptionData.length > 0 ? consumptionData : [150, 140, 130, 120, 110, 100],
         borderColor: "#ff9800",
         backgroundColor: "rgba(255, 152, 0, 0.2)",
         tension: 0.4,
@@ -51,7 +51,6 @@ const ProgressTracker: React.FC = () => {
     ],
   };
 
-  // Tipagem das opções do gráfico
   const progressOptions: ChartOptions<"line"> = {
     responsive: true,
     plugins: {
@@ -84,29 +83,20 @@ const ProgressTracker: React.FC = () => {
     },
   };
 
-  // Calcula a redução percentual com base no consumo atual e na meta
-  const calculateReduction = (targetConsumption: number) => {
-    if (progressData.length > 0) {
-      const totalConsumption = progressData.reduce((sum, value) => sum + value, 0);
-      const reduction = ((totalConsumption - targetConsumption) / totalConsumption) * 100;
-      return Math.min(Math.max(reduction, 0), 100); // Garantir que a redução esteja entre 0% e 100%
-    }
-    return 0;
-  };
-
-  const reductionPercentage = calculateReduction(540); // Exemplo de meta (540 kWh no total)
+  const reductionPercentage = ((totalReduction / 150) * 100).toFixed(0);
+  const progressBarWidth = `${Math.min(100, parseInt(reductionPercentage) * 2)}%`;
 
   return (
     <div className="progress-container">
       <h2 className="progress-title">📊 Acompanhamento de Progresso</h2>
-      <Line data={progressChartData} options={progressOptions} />
+      <Line data={progressData} options={progressOptions} />
 
       <div className="progress-summary">
-        <p>🔻 Redução total alcançada: <strong>{reductionPercentage.toFixed(2)}%</strong></p>
+        <p>🔻 Redução total alcançada: <strong>{reductionPercentage}%</strong></p>
         <div className="progress-bar">
-          <div className="progress-bar-inner" style={{ width: `${reductionPercentage}%` }}></div>
+          <div className="progress-bar-inner" style={{ width: progressBarWidth }}></div>
         </div>
-        <p>🎯 Meta: Reduzir para <strong>90 kWh/mês</strong> até Dezembro</p>
+        <p>🎯 Meta: Reduzir para <strong>{reductionGoal} kWh/mês</strong> até Dezembro</p>
       </div>
     </div>
   );
